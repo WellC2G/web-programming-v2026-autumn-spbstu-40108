@@ -23,9 +23,17 @@ function getPluralForm(
 }
 
 export function timeAgo(pastDate: Date): string {
+  if (isNaN(pastDate.getTime())) {
+    throw new Error('Передана некорректная дата');
+  }
+
   const now = new Date();
 
-  const diffMs = Math.max(0, now.getTime() - pastDate.getTime());
+  if (pastDate.getTime() > now.getTime()) {
+    throw new Error('Дата не может быть в будущем');
+  }
+
+  const diffMs = now.getTime() - pastDate.getTime();
 
   const diffMinutes = Math.floor(diffMs / (1000 * 60));
   const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
