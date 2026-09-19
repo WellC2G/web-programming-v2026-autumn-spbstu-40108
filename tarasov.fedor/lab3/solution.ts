@@ -1,4 +1,8 @@
 export function moveZerosToEnd(arr: unknown[]): unknown[] {
+  if (!Array.isArray(arr)) {
+    throw new TypeError('Ожидается массив, но передан другой тип данных');
+  }
+
   const nonZeros: unknown[] = [];
   const zeros: unknown[] = [];
 
