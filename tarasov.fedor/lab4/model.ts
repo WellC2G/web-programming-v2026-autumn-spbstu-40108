@@ -13,6 +13,10 @@ export class Travel {
     this.visitedCountries = [...visitedCountries];
   }
 
+  get visitedCount(): number {
+    return this.visitedCountries.length;
+  }
+
   addCountry(country: string): void {
     if (!this.visitedCountries.includes(country)) {
       this.visitedCountries.push(country);
@@ -20,15 +24,15 @@ export class Travel {
   }
 
   removeCountry(country: string): void {
-    this.visitedCountries = this.visitedCountries.filter((c) => c !== country);
-  }
-
-  get visitedCount(): number {
-    return this.visitedCountries.length;
+    const index = this.visitedCountries.indexOf(country);
+    if (index !== -1) {
+      this.visitedCountries.splice(index, 1);
+    }
   }
 }
 
-export function groupByVisitedCount(
+// 1. { "exportName": "groupTravelsByCountryCount" }
+export function groupTravelsByCountryCount(
   travels: Travel[],
 ): Record<number, Travel[]> {
   return travels.reduce(
@@ -44,7 +48,8 @@ export function groupByVisitedCount(
   );
 }
 
-export function getUniqueVisitedCountries(travels: Travel[]): string[] {
+// 2. { "exportName": "getUniqueCountries" }
+export function getUniqueCountries(travels: Travel[]): string[] {
   const uniqueCountries = new Set<string>();
   travels.forEach((travel) => {
     travel.visitedCountries.forEach((country) => uniqueCountries.add(country));
@@ -52,13 +57,15 @@ export function getUniqueVisitedCountries(travels: Travel[]): string[] {
   return Array.from(uniqueCountries);
 }
 
-export function getTravelsByCountry(
+// 3. { "exportName": "findTravelsByCountry" }
+export function findTravelsByCountry(
   travels: Travel[],
   country: string,
 ): Travel[] {
   return travels.filter((travel) => travel.visitedCountries.includes(country));
 }
 
+// 4. { "exportName": "groupTravelersByCountry" }
 export function groupTravelersByCountry(
   travels: Travel[],
 ): Record<string, Travel[]> {
@@ -74,9 +81,10 @@ export function groupTravelersByCountry(
   return result;
 }
 
-export function getTravelersWithMoreThanNCountries(
+// 5. { "exportName": "findTravelsAboveCountryCount" }
+export function findTravelsAboveCountryCount(
   travels: Travel[],
-  n: number,
+  count: number,
 ): Travel[] {
-  return travels.filter((travel) => travel.visitedCount > n);
+  return travels.filter((travel) => travel.visitedCount > count);
 }
