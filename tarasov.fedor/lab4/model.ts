@@ -34,18 +34,16 @@ export class Travel {
 // 1. { "exportName": "groupTravelsByCountryCount" }
 export function groupTravelsByCountryCount(
   travels: Travel[],
-): Record<number, Travel[]> {
-  return travels.reduce(
-    (acc, travel) => {
-      const count = travel.visitedCount;
-      if (!acc[count]) {
-        acc[count] = [];
-      }
-      acc[count].push(travel);
-      return acc;
-    },
-    {} as Record<number, Travel[]>,
-  );
+): Map<number, Travel[]> {
+  const map = new Map<number, Travel[]>();
+  travels.forEach((travel) => {
+    const count = travel.visitedCount;
+    if (!map.has(count)) {
+      map.set(count, []);
+    }
+    map.get(count)!.push(travel);
+  });
+  return map;
 }
 
 // 2. { "exportName": "getUniqueCountries" }
